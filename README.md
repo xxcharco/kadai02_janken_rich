@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/74c273c9-d33f-41ef-9eeb-a0d2766dc5f6)# ①課題番号-プロダクト名
+## ①課題番号-プロダクト名
 
 JS2 - じゃんけんアプリリッチver
 
