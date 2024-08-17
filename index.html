@@ -33,65 +33,21 @@
 
         <div id="quizContainer" style="display: none;">
             <div id="quizQuestion">ここにクイズが表示されます</div>
+            <img id="quizImage" src="" alt="クイズ画像" style="max-width: 100%; height: auto; display: none;">
             <ul id="quizOptions">
                 <!-- 選択肢をここに表示 -->
             </ul>
             <div id="quizResult"></div>
+            <div id="quizActions" style="display: none;">
+                <button id="quitQuiz">クイズをやめる</button>
+                <button id="nextQuiz">次に進む</button>
+            </div>
         </div>
     </main>
 
     <script>
     $(document).ready(function() {
-    // 各ボタンにクリックイベントを設定
-    $("#gu_btn").click(function() {
-        play("グー");
-    });
-
-    $("#cho_btn").click(function() {
-        play("チョキ");
-    });
-
-    $("#par_btn").click(function() {
-        play("パー");
-    });
-
-    //ジャンケン
-   function play(userChoice) {
-        //利用可能な選択肢を配列として定義
-        const choices = ["グー", "チョキ", "パー"];
-        const pc_hands = $('#pc_hands');
-        const judgment = $('#judgment');
-        const winImageContainer = $('#winImageContainer');
-        const quizContainer = $('#quizContainer');
-        const quizQuestion = $('#quizQuestion');
-        const quizOptions = $('#quizOptions');
-        const quizResult = $('#quizResult');
-
-        // コンピュータの選択をランダムに決定
-        const computerChoice = choices[Math.floor(Math.random() * 3)];
-        pc_hands.text(computerChoice);
-        let result = "";
-
-        //ユーザーとコンピュータの選択を比較して結果を判定
-        if (userChoice === computerChoice){
-            result = "引き分け";
-        } else if (
-            (userChoice === "グー" && computerChoice === "チョキ" )||
-            (userChoice === "チョキ" && computerChoice === "パー" )||
-            (userChoice === "パー" && computerChoice === "グー" )
-        ) {
-            result = "あなたの勝ち";
-            winImageContainer.show();
-            showQuiz(); // 勝ったらクイズを表示
-        } else {
-            result = "あなたの負け";
-            winImageContainer.hide();
-            quizContainer.hide(); // クイズは表示しない
-        }
-        judgment.text(result);
-   }
-
-   //クイズの質問と答え
+        //クイズの質問と答え
    const quizzes = [
         {
             // ロンサカパ
@@ -248,7 +204,7 @@
 
          // ブラックブッシュ
          {
-            question: "ブラックブッシュのウイスキーの特徴的な風味はどれですか？",
+            question: "ブラックブッシュの特徴的な風味はどれですか？",
             options: ["ピートのスモーキーさとヨードの風味", "リッチなシェリーの甘さとフルーティーな風味", "軽やかなフローラルの香りとハチミツの甘さ"],
             correctAnswer: "リッチなシェリーの甘さとフルーティーな風味"
         },
@@ -325,15 +281,83 @@
         },
     ];
 
+    // 各ボタンにクリックイベントを設定
+    $("#gu_btn").click(function() {
+        play("グー");
+    });
+
+    $("#cho_btn").click(function() {
+        play("チョキ");
+    });
+
+    $("#par_btn").click(function() {
+        play("パー");
+    });
+
+    //ジャンケン
+   function play(userChoice) {
+        //利用可能な選択肢を配列として定義
+        const choices = ["グー", "チョキ", "パー"];
+        const pc_hands = $('#pc_hands');
+        const judgment = $('#judgment');
+        const winImageContainer = $('#winImageContainer');
+        const quizContainer = $('#quizContainer');
+        const quizQuestion = $('#quizQuestion');
+        const quizOptions = $('#quizOptions');
+        const quizResult = $('#quizResult');
+
+        // コンピュータの選択をランダムに決定
+        const computerChoice = choices[Math.floor(Math.random() * 3)];
+        pc_hands.text(computerChoice);
+        let result = "";
+
+        //ユーザーとコンピュータの選択を比較して結果を判定
+        if (userChoice === computerChoice){
+            result = "引き分け";
+        } else if (
+            (userChoice === "グー" && computerChoice === "チョキ" )||
+            (userChoice === "チョキ" && computerChoice === "パー" )||
+            (userChoice === "パー" && computerChoice === "グー" )
+        ) {
+            result = "あなたの勝ち";
+            winImageContainer.show();
+            showQuiz(); // 勝ったらクイズを表示
+        } else {
+            result = "あなたの負け";
+            winImageContainer.hide();
+            quizContainer.hide(); // クイズは表示しない
+        }
+        judgment.text(result);
+   }
+
    //クイズ
+   let remainingQuizzes = [...quizzes];  // ランダム表示のためにクイズのコピーを作成
+
    function showQuiz() {
-    const randomQuiz = quizzes[Math.floor(Math.random() * quizzes.length)];
+    if (remainingQuizzes.length === 0) {
+        endQuiz();
+        return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * remainingQuizzes.length);
+    const randomQuiz = remainingQuizzes[randomIndex];
+
     $("#quizQuestion").text(randomQuiz.question);
+
+    if (randomQuiz.image) {
+        $("#quizImage").attr("src", randomQuiz.image).show();
+    } else {
+        $("#quizImage").hide();
+    }
+
     $('#quizOptions').empty();
 
     randomQuiz.options.forEach(function(option) {
         $('#quizOptions').append('<li><button class="quizOption">' + option + '</button></li>');
     });
+
+    // クイズが表示されたときに、結果表示をリセット
+    $('#quizResult').text("");
 
     $('#quizContainer').show();
 
@@ -342,16 +366,37 @@
         checkAnswer(selectedAnswer, randomQuiz.correctAnswer);
     });
 
-   }
+    // クイズが終了したら「クイズをやめる」と「次に進む」ボタンを表示
+    $('#quizActions').show();
 
-   function checkAnswer(selectedAnswer, correctAnswer) {
+    $('#quitQuiz').click(function() {
+        endQuiz();
+    });
+
+    $('#nextQuiz').click(function() {
+        remainingQuizzes.splice(randomIndex, 1);  // 今のクイズを削除
+        $('#quizActions').hide();
+        showQuiz();  // 次のクイズを表示
+    });
+}
+
+    function checkAnswer(selectedAnswer, correctAnswer) {
         const quizResult = $('#quizResult');
         if (selectedAnswer === correctAnswer) {
             quizResult.text("正解！");
         } else {
             quizResult.text("不正解！");
         }
+
+        // 次に進むかやめるかを選択できるようにする
+        $('#quizActions').show();
     }
+
+    function endQuiz() {
+        $('#quizContainer').hide();
+        $('#judgment').text("クイズが終了しました！");
+    }
+
 });
 
    
