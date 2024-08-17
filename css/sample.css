@@ -6,7 +6,7 @@ body {
     font-size: 32px;
     color: #fff;
     font-family: 'DotGothic16', cursive; /* ドット絵風フォント */
-    background-image: url("img/backgound_snack2.png") ; /* アップロードされた画像を背景に設定 */
+    background-image: url("https://raw.githubusercontent.com/xxcharco/kadai01_janken/main/img/backgound_snack2.png") ; /* アップロードされた画像を背景に設定 */
     background-size: cover; /* 背景画像を画面全体に表示 */
     background-repeat: no-repeat; /* 背景画像の繰り返しを無効に */
 }
