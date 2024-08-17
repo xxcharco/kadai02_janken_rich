@@ -1,0 +1,113 @@
+/* 全体のスタイル */
+body {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    font-size: 32px;
+    color: #fff;
+    font-family: 'DotGothic16', cursive; /* ドット絵風フォント */
+    background-image: url("/img/backgound_snack2.png") ; /* アップロードされた画像を背景に設定 */
+    background-size: cover; /* 背景画像を画面全体に表示 */
+    background-repeat: no-repeat; /* 背景画像の繰り返しを無効に */
+}
+
+.full-page {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* 背景を半透明に設定 */
+  }
+
+/* ヘッダーのスタイル */
+header {
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* メインコンテンツのスタイル */
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+/* フッターのスタイル */
+
+
+/* 段落のスタイル */
+p {
+    font-size: 200%;
+    text-align: center;
+    border-bottom: 1px solid #000;
+    height: 200px;
+    line-height: 200px;
+    margin: 0;
+}
+
+/* リストのスタイル */
+ul {
+    padding: 0;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 20px 0px;
+    margin: 0;
+}
+
+/* リストアイテムのスタイル */
+img {
+    cursor: pointer;
+    padding: 20px;
+    font-size: 24px;
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+    width: 100px; /* 画像の幅を調整 */
+    height: auto; /* 画像の高さを自動調整 */
+}
+
+img:hover {
+    opacity: 0.5;
+}
+
+/* リストアイテムのスタイル */
+li {
+    list-style-type: none;
+    background-color: #333;
+    display: table-cell;
+    cursor: pointer;
+    padding: 20px 0px;
+    font-size: 24px;
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+li:hover {
+    background-color: #ff0000;
+    color: #fff;
+}
+
+#quizContainer {
+    position: absolute;
+    top: 50%;  /* 画面の50%の高さに配置 */
+    left: 50%;  /* 画面の50%の幅に配置 */
+    transform: translate(-50%, -50%);  /* 中央に揃えるために自身の幅と高さの半分だけ移動 */
+    background-color: rgba(0, 0, 0, 0.8);  /* 背景色を少し透明にして、下の内容が少し透けるように */
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    z-index: 10;  /* 重なり順を制御。大きい値ほど上に表示される */
+    display: none;  /* 初期状態では非表示 */
+    width: 80%;  /* 必要に応じてサイズを調整 */
+}
+
+
+#quizOptions li {
+    list-style-type: none;
+    margin-bottom: 10px;
+}
+
+#quizOptions button {
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
